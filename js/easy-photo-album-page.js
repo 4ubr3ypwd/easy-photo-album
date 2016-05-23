@@ -289,23 +289,19 @@ window.TVproductions = window.TVproductions || {};
 										.map(function(att) {
 											var attachment = att.toJSON();
 											var order = EPA.maxOrder += 1;
-											// make row from template
-											var row = _
-													.template(
-															EPA.rowtemplate,
-															{
-																alternate : (order % 2 === 0 ? ' class="alternate"'
-																		: ''),
-																id : attachment.id,
-																imgurl : (attachment.sizes.thumbnail == undefined ? attachment.sizes.full.url
-																		: attachment.sizes.thumbnail.url),
-																order : order,
-																title : attachment.title,
-																caption : attachment.caption
-															});
-											// append it to the album
-											$('.easy-photo-album-table tr:last')
-													.after(row);
+
+											// make row from template (see https://wordpress.org/support/topic/uncaught-referenceerror-alternate-is-not-defined?replies=9#post-8296155)
+											var rowTemplate = _.template(EPA.rowtemplate);
+											var row = rowTemplate({
+													alternate : ( order % 2 === 0 ? ' class="alternate"' : ''),
+													id : attachment.id,
+													imgurl : (attachment.sizes.thumbnail == undefined ? attachment.sizes.full.url
+															: attachment.sizes.thumbnail.url),
+													order : order,
+													title : attachment.title,
+													caption : attachment.caption
+											});
+											$('.easy-photo-album-table tr:last').after(row);
 										});
 
 								refresh();
