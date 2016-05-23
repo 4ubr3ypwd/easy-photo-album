@@ -166,7 +166,7 @@ IMG;
 	/* (non-PHPdoc)
 	 * @see WP_List_Table::bulk_actions()
 	 */
-	function bulk_actions() {
+	function bulk_actions( $which = '' ) {
 		/* * * * *
 		 * This is a fix: the default name of the select is action (or action2),
 		 * so this function changed it to epa-action (or epa-action2).
