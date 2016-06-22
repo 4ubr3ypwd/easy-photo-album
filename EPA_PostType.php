@@ -530,7 +530,7 @@ HTML;
 	public function admin_head() {
 		// Add dashicons for WP 3.8 and higher
 		if (version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' )) {
-			wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.css', array (), EasyPhotoAlbum::$version );
+			wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . '.css', array (), EasyPhotoAlbum::$version );
 			echo <<<CSS
 <style>
 #menu-posts-easy-photo-album .wp-menu-image:before {
@@ -610,7 +610,7 @@ CSS;
 CSS;
 			// Add media
 			wp_enqueue_media ();
-			$min = (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min');
+			$min = '';
 			wp_enqueue_script ( 'easy-photo-album-page-js', plugins_url ( 'js/easy-photo-album-page' . $min . '.js', __FILE__ ), array (
 					'jquery',
 					'underscore'
@@ -629,10 +629,10 @@ CSS;
 		// OR when we are in the main query and a post has the shortcode
 		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home () && EasyPhotoAlbum::get_instance ()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' )) || (is_main_query () && $this->query_has_shortcode ( $GLOBALS ['wp_query'], 'epa-album' ))) {
 			// it is a photo album
-			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
+			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
 			if (EasyPhotoAlbum::get_instance ()->viewmode == 'lightbox') {
-				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.js', __FILE__ ), array (
+				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . '.js', __FILE__ ), array (
 						'jquery'
 				), '2.6.1', true );
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
@@ -641,7 +641,7 @@ CSS;
 						'albumLabel' => EasyPhotoAlbum::get_instance ()->imagenumberformat,
 						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
 				) );
-				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), '2.6.1' );
+				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . '.css', __FILE__ ), array (), '2.6.1' );
 			}
 		}
 	}

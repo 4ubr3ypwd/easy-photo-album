@@ -116,8 +116,8 @@ class EPA_Admin {
 		// Remove the menu item for the about page.
 		remove_submenu_page ( 'index.php', 'epa-about' );
 		if (get_current_screen ()->id === $this->admin_page) {
-			wp_enqueue_style ( 'epa-settings-css', plugin_dir_url ( __FILE__ ) . 'css/easy-photo-album-settings' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.css', false, EasyPhotoAlbum::$version );
-			wp_enqueue_script ( 'epa-settings-js', plugin_dir_url ( __FILE__ ) . 'js/easy-photo-album-settings' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.js', array (
+			wp_enqueue_style ( 'epa-settings-css', plugin_dir_url ( __FILE__ ) . 'css/easy-photo-album-settings' . '.css', false, EasyPhotoAlbum::$version );
+			wp_enqueue_script ( 'epa-settings-js', plugin_dir_url ( __FILE__ ) . 'js/easy-photo-album-settings' . '.js', array (
 					'jquery'
 			), EasyPhotoAlbum::$version, true );
 		}
