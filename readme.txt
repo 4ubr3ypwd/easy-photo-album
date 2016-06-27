@@ -1,5 +1,5 @@
 === Easy Photo Album ===
-Contributors: TV productions
+Contributors: TV productions, aubreypwd
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AK8Y5W7ZSMRTA
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
