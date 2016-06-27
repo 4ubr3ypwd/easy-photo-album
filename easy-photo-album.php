@@ -11,6 +11,18 @@
  */
 
 /*
+ * Note about original author.
+ *
+ * The original author, TV productions, did not seem to have time to maintain this
+ * plugin. So I, Aubrey Portwood, took over the plugin in order to continue
+ * supporting as best I could.
+ *
+ * Where I have made any modifications to code, I have noted so
+ * using @author Aubrey Portwood, where there there is no @author it
+ * is the original code of the author.
+ */
+
+/*
  * Easy Photo Album WordPress plugin.
  *
  * Copyright (C) 2013  TV productions
@@ -52,6 +64,14 @@ class EasyPhotoAlbum {
 	private $insert_album = null;
 	public static $version = '1.3.6-alpha';
 
+	/**
+	 * Construct
+	 *
+	 * @since  Unknown Introduced
+	 * @since  1.3.6-alpha Removed about page.
+	 *
+	 * @author  Aubrey Portwood
+	 */
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
 

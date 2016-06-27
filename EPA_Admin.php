@@ -58,7 +58,10 @@ class EPA_Admin {
 	/**
 	 * Loads the about page if the plugin is activated (not in a bulk action).
 	 *
-	 * @since 1.2
+	 * @since  1.2          Introduced
+	 * @since  1.3.6-alpha  Removed the About page.
+	 *
+	 * @author  Aubrey Portwood
 	 */
 	public function after_activation($plugin) {
 		// Redirect to about page if this plugin is just activated
@@ -76,9 +79,10 @@ class EPA_Admin {
 	 * Do some styling for the menu and load css if needed
 	 *
 	 * @since 1.2
+	 *
+	 * @author Aubrey Portwood
 	 */
 	public function admin_head() {
-		// Remove the menu item for the about page.
 		if (get_current_screen ()->id === $this->admin_page) {
 			wp_enqueue_style ( 'epa-settings-css', plugin_dir_url ( __FILE__ ) . 'css/easy-photo-album-settings' . '.css', false, EasyPhotoAlbum::$version );
 			wp_enqueue_script ( 'epa-settings-js', plugin_dir_url ( __FILE__ ) . 'js/easy-photo-album-settings' . '.js', array (
