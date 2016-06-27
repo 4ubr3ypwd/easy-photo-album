@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'EPA_PostType.php';
 require_once 'EPA_Insert_Album.php';
 require_once 'EPA_Renderer.php';
-require_once 'EPA_Upgrade.php';
 
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
@@ -55,9 +54,6 @@ class EasyPhotoAlbum {
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
-
-		// Do upgrade before the options are initialized.
-		EPA_Upgrade::do_upgrade ();
 
 		$this->options_init ();
 		$this->post_type = new EPA_PostType ();
