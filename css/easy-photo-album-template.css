@@ -1,24 +1,4 @@
 @CHARSET "UTF-8";
-/*
-This is the basic styling for the display of the photo albums at the front end.
-
- Easy Photo Album Wordpress plugin.
-
-Copyright (C) 2013  TV productions
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 .epa-album, .epa-album ul, .epa-album li {
 	margin: 0 !important;
@@ -63,12 +43,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 .epa-cf:before,
 .epa-cf:after {
-    content: " ";
-    display: table;
+	content: " ";
+	display: table;
 }
 
 .epa-cf:after {
-    clear: both;
+	clear: both;
 }
 
 /**
@@ -76,5 +56,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Include this rule to trigger hasLayout and contain floats.
  */
 .epa-cf {
-    *zoom: 1;
+	*zoom: 1;
 }
