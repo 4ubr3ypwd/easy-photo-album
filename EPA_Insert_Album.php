@@ -14,29 +14,29 @@ class EPA_Insert_Album {
 		global $EPA_DOING_SHORTCODE;
 		// set init value
 		$EPA_DOING_SHORTCODE = false;
-		add_action ( 'init', array (
+		add_action ( 'init', array(
 				$this,
 				'setup'
 		) );
-		if (! $this->is_tinymce_4 ()) {
-			add_action ( 'after_wp_tiny_mce', array (
+		if (! $this->is_tinymce_4()) {
+			add_action ( 'after_wp_tiny_mce', array(
 					$this,
 					'epa_insert_html'
 			) );
 		}
 
-		add_filter ( 'mce_external_languages', array (
+		add_filter ( 'mce_external_languages', array(
 				$this,
 				'add_locale'
 		) );
 
-		add_shortcode ( 'epa-album', array (
+		add_shortcode ( 'epa-album', array(
 				$this,
 				'handle_shortcode'
 		) );
 
-		if (is_admin ()) {
-			add_action ( 'wp_ajax_epa_get_albums', array (
+		if ( is_admin() ) {
+			add_action ( 'wp_ajax_epa_get_albums', array(
 					$this,
 					'ajax_return_albums'
 			) );
@@ -48,11 +48,11 @@ class EPA_Insert_Album {
 		if (! (current_user_can ( 'edit_epa_albums' )) || ! get_user_option ( 'rich_editing' ))
 			return;
 
-		add_filter ( 'mce_buttons', array (
+		add_filter ( 'mce_buttons', array(
 				$this,
 				'add_button_to_editor'
 		) );
-		add_filter ( 'mce_external_plugins', array (
+		add_filter ( 'mce_external_plugins', array(
 				$this,
 				'add_plugin'
 		) );
@@ -65,14 +65,14 @@ class EPA_Insert_Album {
 	 * @return string
 	 */
 	public function handle_shortcode($atts) {
-		$atts = shortcode_atts ( array (
+		$atts = shortcode_atts ( array(
 				'id' => 0,
 				'show_title' => 'true',
 				'display' => 'excerpt'
 		), $atts, 'epa-album' );
 
 		// Is the curren album published or...?
-		if (! in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
+		if (! in_array( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array(
 				'publish'
 		) ) )) {
 			// if the user is logged in and so forth..
@@ -111,15 +111,15 @@ class EPA_Insert_Album {
 						$tag = apply_filters ( 'epa_include_album_title_tag', 'h2' );
 						$content .= "<$tag>" . get_the_title ( $atts ['id'] ) . "</$tag>";
 					}
-					ob_start ();
+					ob_start();
 					// Fix to force the_content to output the whole album
 					// See:
 					// http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 1;
-					the_content ();
-					$content .= ob_get_contents ();
-					ob_end_clean ();
+					the_content();
+					$content .= ob_get_contents();
+					ob_end_clean();
 					break;
 				default :
 				case 'excerpt' :
@@ -127,18 +127,18 @@ class EPA_Insert_Album {
 						$tag = apply_filters ( 'epa_include_album_title_tag', 'h2' );
 						$content .= "<$tag>" . '<a href="' . get_permalink ( $album ) . '">' . get_the_title ( $atts ['id'] ) . "</a></$tag>";
 					}
-					ob_start ();
+					ob_start();
                 // Fix to force the_content to output the album until the <!--more--> tag
                 // See:
                 // http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 0;
-					the_content ( __ ( "View more photos", 'epa' ) . ' &rarr;' );
-					$content .= ob_get_contents ();
-					ob_end_clean ();
+					the_content ( __( "View more photos", 'epa' ) . ' &rarr;' );
+					$content .= ob_get_contents();
+					ob_end_clean();
 					break;
 			}
-			wp_reset_postdata ();
+			wp_reset_postdata();
 		}
 		$EPA_DOING_SHORTCODE = false;
 		return $content;
@@ -152,14 +152,14 @@ class EPA_Insert_Album {
 		if (! isset ( $_REQUEST ['_wpnonce'] ))
 			$_REQUEST ['_wpnonce'] = '';
 		check_ajax_referer ( 'epa_insert_dlg' );
-		$albums = get_posts ( array (
+		$albums = get_posts ( array(
 				'post_type' => EPA_PostType::POSTTYPE_NAME,
 				'post_status' => 'publish',
 				'numberposts' => - 1
 		) );
-		$result = array ();
+		$result = array();
 		foreach ( $albums as $album ) {
-			$result [] = array (
+			$result [] = array(
 					'id' => $album->ID,
 					'title' => $album->post_title
 			);
@@ -189,7 +189,7 @@ class EPA_Insert_Album {
 	 * @return s array
 	 */
 	public function add_plugin($plugins) {
-		if ($this->is_tinymce_4 ()) {
+		if ($this->is_tinymce_4()) {
 			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/plugin' . '.js';
 		} else {
 			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/editor_plugin' . '.js';
@@ -212,12 +212,12 @@ class EPA_Insert_Album {
 	 */
 	public function epa_insert_html() {
 		// There is a tinymce editor loading....
-		wp_enqueue_style ( 'epa-insert-css', plugins_url ( 'js/tinymce/styles.css', __FILE__ ), array (), EasyPhotoAlbum::$version );
-		wp_enqueue_script ( 'epa-insert-js', plugins_url ( 'js/tinymce/epa-insert.js', __FILE__ ), array (
+		wp_enqueue_style ( 'epa-insert-css', plugins_url ( 'js/tinymce/styles.css', __FILE__ ), array(), EasyPhotoAlbum::$version );
+		wp_enqueue_script ( 'epa-insert-js', plugins_url ( 'js/tinymce/epa-insert.js', __FILE__ ), array(
 				'jquery'
 		), EasyPhotoAlbum::$version, true );
-		wp_localize_script ( 'epa-insert-js', 'epaInsertL10n', array (
-				'not_found' => __ ( 'No albums found', 'epa' ),
+		wp_localize_script ( 'epa-insert-js', 'epaInsertL10n', array(
+				'not_found' => __( 'No albums found', 'epa' ),
 				'wp3_8' => version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' )
 		) );
 		wp_print_styles ( 'epa-insert-css' );

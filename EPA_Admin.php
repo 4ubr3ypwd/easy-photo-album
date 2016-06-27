@@ -2,18 +2,28 @@
 
 require_once 'EPA_Help.php';
 
+if ( class_exists( 'EPA_Admin' ) ) {
+	return;
+}
+
 /**
  * This class displays the options screen on admin side.
  *
  * @author TV Productions
  * @package EasyPhotoAlbum
  *
+ * @since  Unknown Introduced.
  */
 class EPA_Admin {
 	private $admin_page = '';
 	private $about_page = '';
 	private $help = null;
 
+	/**
+	 * Construct
+	 *
+	 * @since  Unknown Introduced.
+	 */
 	public function __construct() {
 		add_action ( 'admin_init', array (
 				$this,
@@ -40,7 +50,7 @@ class EPA_Admin {
 				'admin_enqueue_scripts'
 		) );
 
-		$this->help = new EPA_Help ();
+		$this->help = new EPA_Help();
 	}
 
 	/**
@@ -58,7 +68,7 @@ class EPA_Admin {
 	/**
 	 * Loads the about page if the plugin is activated (not in a bulk action).
 	 *
-	 * @since  1.2          Introduced
+	 * @since  1.2          Introduced.
 	 * @since  1.3.6-alpha  Removed the About page.
 	 *
 	 * @author  Aubrey Portwood
@@ -83,7 +93,7 @@ class EPA_Admin {
 	 * @author Aubrey Portwood
 	 */
 	public function admin_head() {
-		if (get_current_screen ()->id === $this->admin_page) {
+		if (get_current_screen()->id === $this->admin_page) {
 			wp_enqueue_style ( 'epa-settings-css', plugin_dir_url ( __FILE__ ) . 'css/easy-photo-album-settings' . '.css', false, EasyPhotoAlbum::$version );
 			wp_enqueue_script ( 'epa-settings-js', plugin_dir_url ( __FILE__ ) . 'js/easy-photo-album-settings' . '.js', array (
 					'jquery'
@@ -92,7 +102,9 @@ class EPA_Admin {
 	}
 
 	/**
-	 * Add the settings to the media options screen
+	 * Add the settings to the media options screen.
+	 *
+	 * @since  Unknown Introduced.
 	 */
 	public function admin_init() {
 		register_setting ( 'EasyPhotoAlbumSettings', 'EasyPhotoAlbum', array (
@@ -194,12 +206,14 @@ class EPA_Admin {
 	 *
 	 * @param array $input
 	 * @return array
+	 *
+	 * @since  Unknown Introduced.
 	 */
 	public function validate_settings($input) {
 		require_once 'EPA_Validator.php';
 
-		$validator = new EPA_Validator ();
-		$valid = get_option ( 'EasyPhotoAlbum', array () );
+		$validator = new EPA_Validator();
+		$valid = get_option ( 'EasyPhotoAlbum', array() );
 		// DISPLAY SETTINGS
 		$valid ['viewmode'] = $validator->get_if_set ( $input, 'viewmode', $valid ['viewmode'] );
 		$valid ['displaycolumns'] = $validator->validate_nummeric ( $validator->get_if_set ( $input, 'displaycolumns', $valid ['displaycolumns'] ), 1, $valid ['displaycolumns'] );
@@ -229,13 +243,13 @@ class EPA_Admin {
 			) );
 			foreach ( $albums as $album ) {
 				$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
-				$data ['options'] = EasyPhotoAlbum::get_instance ()->get_default_display_options ( $valid );
+				$data ['options'] = EasyPhotoAlbum::get_instance()->get_default_display_options ( $valid );
 				update_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, $data );
 			}
 		}
 
 		// Force a rerender
-		if ($this->array_equal_values ( get_option ( 'EasyPhotoAlbum', array () ), $valid )) {
+		if ($this->array_equal_values ( get_option ( 'EasyPhotoAlbum', array() ), $valid )) {
 			// The new and the old settings are the same, so there won't be a rerender
 			// add a difference
 			if (isset ( $valid ['none'] )) {
@@ -250,34 +264,35 @@ class EPA_Admin {
 
 	/**
 	 * Renders the viewmode options for the albums
+	 *
+	 * @since  Unknown Introduced.
 	 */
 	public function display_viewmode_field() {
-		?>
-<span class="block"><span class="block"><input type="radio"
-		name="EasyPhotoAlbum[viewmode]" value="file" id="epa-viewmode-file"
-		<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'file', true);?> />
-		<label for="epa-viewmode-file"><?php _e('Imagefile', 'epa');?></label>
-		<br /> <input type="radio" name="EasyPhotoAlbum[viewmode]"
-		value="attachment" id="epa-viewmode-attachment"
-		<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'attachment', true);?> />
-		<label for="epa-viewmode-attachment"><?php _e('Attachment', 'epa');?></label>
-		<br /> <input type="radio" name="EasyPhotoAlbum[viewmode]"
-		value="lightbox" id="epa-viewmode-lightbox"
-		<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'lightbox', true);?> />
-		<label for="epa-viewmode-lightbox"><?php _e('Lightbox', 'epa');?></label></span>
-	<?php $this->help->render_tooltip('viewmode');?>
-</span>
-<?php
+		?><span class="block"><span class="block"><input type="radio"
+				name="EasyPhotoAlbum[viewmode]" value="file" id="epa-viewmode-file"
+				<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'file', true);?> />
+				<label for="epa-viewmode-file"><?php _e('Imagefile', 'epa');?></label>
+				<br /> <input type="radio" name="EasyPhotoAlbum[viewmode]"
+				value="attachment" id="epa-viewmode-attachment"
+				<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'attachment', true);?> />
+				<label for="epa-viewmode-attachment"><?php _e('Attachment', 'epa');?></label>
+				<br /> <input type="radio" name="EasyPhotoAlbum[viewmode]"
+				value="lightbox" id="epa-viewmode-lightbox"
+				<?php checked(EasyPhotoAlbum::get_instance()->viewmode, 'lightbox', true);?> />
+				<label for="epa-viewmode-lightbox"><?php _e('Lightbox', 'epa');?></label></span>
+			<?php $this->help->render_tooltip('viewmode');?>
+		</span><?php
 	}
 
 	/**
 	 * Renders an HTML input element of the type text.
 	 *
 	 * @param array $args
+	 * @since  Unknown Introduced.
 	 */
 	public function display_text_field($args) {
 		$name = $args ['name'];
-		echo '<input type="text" value="' . esc_attr ( EasyPhotoAlbum::get_instance ()->$name ) . '" name="EasyPhotoAlbum[' . $name . ']"/>';
+		echo '<input type="text" value="' . esc_attr ( EasyPhotoAlbum::get_instance()->$name ) . '" name="EasyPhotoAlbum[' . $name . ']"/>';
 		$this->help->render_tooltip ( $name );
 	}
 
@@ -285,6 +300,7 @@ class EPA_Admin {
 	 * Renders an HTML input element of the type number.
 	 *
 	 * @param array $args
+	 * @since  Unknown Introduced.
 	 */
 	public function display_numeric_field($args) {
 		$name = $args ['name'];
@@ -302,7 +318,7 @@ class EPA_Admin {
 		} else {
 			$args ['class'] = 'small-text';
 		}
-		echo '<input type="number" value="' . esc_attr ( EasyPhotoAlbum::get_instance ()->$name ) . '" name="EasyPhotoAlbum[' . $name . ']" ' . EasyPhotoAlbum::get_instance ()->generate_attributes ( $args ) . '/>';
+		echo '<input type="number" value="' . esc_attr ( EasyPhotoAlbum::get_instance()->$name ) . '" name="EasyPhotoAlbum[' . $name . ']" ' . EasyPhotoAlbum::get_instance()->generate_attributes ( $args ) . '/>';
 		$this->help->render_tooltip ( $name );
 	}
 
@@ -310,6 +326,7 @@ class EPA_Admin {
 	 * Renders an HTML input element of the type checkbox
 	 *
 	 * @param array $args
+	 * @since  Unknown Introduced.
 	 */
 	public function display_checkbox_field($args) {
 		$name = $args ['name'];
@@ -317,7 +334,7 @@ class EPA_Admin {
 		if (isset ( $args ['label_for'] ))
 			$args ['id'] = $args ['label_for'];
 
-		echo '<input type="checkbox" value="true" name="EasyPhotoAlbum[' . $name . ']" ' . checked ( EasyPhotoAlbum::get_instance ()->$name, true, false ) . ' ' . EasyPhotoAlbum::get_instance ()->generate_attributes ( $args ) . '/>';
+		echo '<input type="checkbox" value="true" name="EasyPhotoAlbum[' . $name . ']" ' . checked ( EasyPhotoAlbum::get_instance()->$name, true, false ) . ' ' . EasyPhotoAlbum::get_instance()->generate_attributes ( $args ) . '/>';
 		$this->help->render_tooltip ( $name );
 	}
 
@@ -325,6 +342,10 @@ class EPA_Admin {
 	 * Renders an HTML select element with the image sizes
 	 *
 	 * @param array $args
+	 * @since  Unknown Introduced.
+	 * @since  1.3.6-alpha Removed echo >>>HTML
+	 *
+	 * @author  Aubrey Portwood
 	 */
 	public function display_imagesize_field($args) {
 		$name = $args ['name'];
@@ -338,83 +359,88 @@ class EPA_Admin {
 				'full' => __ ( 'Full Size' )
 		) );
 		foreach ( $size_names as $size => $displayname ) {
-			$selected = selected ( EasyPhotoAlbum::get_instance ()->$name, $size, false );
-			echo <<<HTML
-                        <option value="{$size}" {$selected}>{$displayname}</option>
-HTML;
+			$selected = selected ( EasyPhotoAlbum::get_instance()->$name, $size, false );
+			echo "<option value='{$size}' {$selected}>{$displayname}</option>";
 		}
 		echo '</select>';
 		$this->help->render_tooltip ( $name );
 	}
 
+	/**
+	 * Renders Admin Page.
+	 *
+	 * @since Unknown Introduced.
+	 */
 	public function render_admin_page() {
 		?>
-<div class="wrap">
-	<?php
-		screen_icon (); // deprecated since wp 3.8
-		?>
-		<h2><?php _ex('Easy Photo Album Settings', 'Page title of settings page', 'epa');?></h2>
-		<?php
-		settings_errors ( 'EasyPhotoAlbumSettings' );
-		?>
-	<form method="post" action="options.php">
-		<?php
-		settings_fields ( 'EasyPhotoAlbumSettings' );
-		?>
-		<div class="epa-settings-block">
-			<p><?php printf( __('The following settings affect the display and behaviour of the photo album.%1$sFor help, check the help text (click on the quesion icon) or visit the %2$ssupport forums%3$s.', 'epa'), '<br/>', '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>');?></p>
-		</div>
-
-		<div class="epa-settings-block" id="epa-display-settings">
-			<h3><?php _e('Display settings', 'epa')?></h3>
-			<table class="form-table">
+			<div class="wrap">
 				<?php
-		do_settings_fields ( $this->admin_page, 'epa-section-display' );
-		?>
-			</table>
-			<?php
-		submit_button ( __ ( 'Apply to all albums', 'epa' ), 'secondary large', 'EasyPhotoAlbum[setforallalbums]', false );
-		$this->help->render_tooltip ( 'setforallalbums' );
-		?>
-		</div>
+					screen_icon(); // deprecated since wp 3.8
+					?>
+					<h2><?php _ex('Easy Photo Album Settings', 'Page title of settings page', 'epa');?></h2>
+					<?php
+					settings_errors ( 'EasyPhotoAlbumSettings' );
+					?>
+				<form method="post" action="options.php">
+					<?php
+					settings_fields ( 'EasyPhotoAlbumSettings' );
+					?>
+					<div class="epa-settings-block">
+						<p><?php printf( __('The following settings affect the display and behaviour of the photo album.%1$sFor help, check the help text (click on the quesion icon) or visit the %2$ssupport forums%3$s.', 'epa'), '<br/>', '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>');?></p>
+					</div>
 
-		<div class="epa-settings-block" id="epa-lightbox-settings">
-			<h3><?php _e('Lightbox settings', 'epa');?></h3>
-			<table class="form-table">
-		<?php
-		do_settings_fields ( $this->admin_page, 'epa-section-lightbox' );
-		?>
-		</table>
-		</div>
+					<div class="epa-settings-block" id="epa-display-settings">
+						<h3><?php _e('Display settings', 'epa')?></h3>
+						<table class="form-table">
+							<?php
+					do_settings_fields ( $this->admin_page, 'epa-section-display' );
+					?>
+						</table>
+						<?php
+					submit_button ( __ ( 'Apply to all albums', 'epa' ), 'secondary large', 'EasyPhotoAlbum[setforallalbums]', false );
+					$this->help->render_tooltip ( 'setforallalbums' );
+					?>
+					</div>
 
-		<div class="epa-settings-block" id="epa-miscellaneous-settings">
-			<h3><?php _e('Miscellaneous settings', 'epa'); ?></h3>
-			<table class="form-table">
-			<?php
-		do_settings_fields ( $this->admin_page, 'epa-section-miscellaneous' );
-		?>
-			</table>
-		</div>
+					<div class="epa-settings-block" id="epa-lightbox-settings">
+						<h3><?php _e('Lightbox settings', 'epa');?></h3>
+						<table class="form-table">
+					<?php
+					do_settings_fields ( $this->admin_page, 'epa-section-lightbox' );
+					?>
+					</table>
+					</div>
+
+					<div class="epa-settings-block" id="epa-miscellaneous-settings">
+						<h3><?php _e('Miscellaneous settings', 'epa'); ?></h3>
+						<table class="form-table">
+						<?php
+					do_settings_fields ( $this->admin_page, 'epa-section-miscellaneous' );
+					?>
+						</table>
+					</div>
+					<?php
+					submit_button();
+					?>
+				</form>
+			</div>
 		<?php
-		submit_button ();
-		?>
-	</form>
-</div>
-<?php
 	}
 
 	/**
 	 * Hooked to admin_enqueue_scripts
+	 *
+	 * @since  Unknown Introduced.
 	 */
 	public function admin_enqueue_scripts() {
 		// Remove the autosave function, becuase it will only save the title
 		// and the content (that doesn't exists for epa). Will it be better?
-		if (EPA_PostType::POSTTYPE_NAME == get_post_type ())
+		if (EPA_PostType::POSTTYPE_NAME == get_post_type())
 			wp_dequeue_script ( 'autosave' );
 	}
 
 	/**
-	 * Determens if two arrays are the same
+	 * Determines if two arrays are the same
 	 *
 	 * @link http://stackoverflow.com/a/17638939/1167959
 	 * @param array $a
@@ -422,6 +448,8 @@ HTML;
 	 * @param bool $strict
 	 * @param bool $allow_duplicate_values
 	 * @return boolean
+	 *
+	 * @since  Unknown Introduced.
 	 */
 	public function array_equal_values(array $a, array $b, $strict = FALSE, $allow_duplicate_values = TRUE) {
 		$add = ( int ) ! $allow_duplicate_values;
@@ -430,13 +458,18 @@ HTML;
 			return FALSE;
 		}
 
-		$table = array ();
+		$table = array();
 		return $this->array_equal_values_count ( $a, $table, $add, $strict ) == $this->array_equal_values_count ( $b, $table, $add, $strict );
 	}
 
+	/**
+	 * Count array values.
+	 *
+	 * @since  Unknown Introduced.
+	 */
 	private function array_equal_values_count(array $array, &$table, $add, $strict) {
 		$exit = ( bool ) $table;
-		$result = array ();
+		$result = array();
 		foreach ( $array as $value ) {
 			$key = array_search ( $value, $table, $strict );
 

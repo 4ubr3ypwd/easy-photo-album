@@ -9,7 +9,7 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
  * @package EasyPhotoAlbum
  */
 class EPA_List_Table extends WP_List_Table {
-	var $_column_headers = array ();
+	var $_column_headers = array();
 
 	/**
 	 * Sets up the list table class
@@ -17,19 +17,19 @@ class EPA_List_Table extends WP_List_Table {
 	 * @param WP_Screen $screen
 	 */
 	function __construct($screen, $items) {
-		parent::__construct ( array (
-				'plural' => __ ( 'Images', 'epa' ),
-				'singular' => __ ( 'Image', 'epa' ),
+		parent::__construct ( array(
+				'plural' => __( 'Images', 'epa' ),
+				'singular' => __( 'Image', 'epa' ),
 				'ajax' => false,
 				'screen' => $screen
 		) );
-		add_action ( 'admin_footer', array (
+		add_action ( 'admin_footer', array(
 				$this,
 				'add_js_vars'
 		) );
 
 		$this->items = $items;
-		$this->prepare_items ();
+		$this->prepare_items();
 	}
 
 	/* (non-PHPdoc)
@@ -37,21 +37,21 @@ class EPA_List_Table extends WP_List_Table {
 	 */
 	function prepare_items() {
 		// no pagination
-		$this->set_pagination_args ( array (
+		$this->set_pagination_args ( array(
 				'total_items' => count ( $this->items ),
 				'total_pages' => 1,
 				'per_page' => count ( $this->items )
 		) );
 
-		$hidden_columns = array ();
-		if (! EasyPhotoAlbum::get_instance ()->showtitleintable)
-			$hidden_columns = array_merge ( $hidden_columns, array (
+		$hidden_columns = array();
+		if (! EasyPhotoAlbum::get_instance()->showtitleintable)
+			$hidden_columns = array_merge ( $hidden_columns, array(
 					'title'
 			) );
-		$this->_column_headers = array (
-				$this->get_columns (), // columns
+		$this->_column_headers = array(
+				$this->get_columns(), // columns
 				$hidden_columns,
-				$this->get_sortable_columns ()
+				$this->get_sortable_columns()
 		);
 	}
 
@@ -59,18 +59,18 @@ class EPA_List_Table extends WP_List_Table {
 	 * @see WP_List_Table::no_items()
 	 */
 	function no_items() {
-		return __ ( "No photos added yet.", 'epa' );
+		return __( "No photos added yet.", 'epa' );
 	}
 
 	/* (non-PHPdoc)
 	 * @see WP_List_Table::get_columns()
 	 */
 	function get_columns() {
-		return array (
-				'cb' => __ ( 'Select All' ),
-				'image' => __ ( 'Image' ),
-				'caption' => __ ( 'Caption' ),
-				'title' => __ ( 'Title' )
+		return array(
+				'cb' => __( 'Select All' ),
+				'image' => __( 'Image' ),
+				'caption' => __( 'Caption' ),
+				'title' => __( 'Title' )
 		);
 	}
 
@@ -101,10 +101,10 @@ class EPA_List_Table extends WP_List_Table {
 
 IMG;
 		// Showing the right actions is done with javascript.
-		$actions = array (
-				'delete' => '<a href="#">' . __ ( 'Delete' ) . '</a>',
-				'order_up' => '<a href="#" class="epa-move-up">' . __ ( 'Up', 'epa' ) . '</a>',
-				'order_down' => '<a href="#" class="epa-move-down">' . __ ( 'Down', 'epa' ) . '</a>'
+		$actions = array(
+				'delete' => '<a href="#">' . __( 'Delete' ) . '</a>',
+				'order_up' => '<a href="#" class="epa-move-up">' . __( 'Up', 'epa' ) . '</a>',
+				'order_down' => '<a href="#" class="epa-move-down">' . __( 'Down', 'epa' ) . '</a>'
 		);
 		echo $this->row_actions ( $actions );
 	}
@@ -140,8 +140,8 @@ IMG;
 	 * @see WP_List_Table::get_bulk_actions()
 	 */
 	function get_bulk_actions() {
-		return array (
-				'delete-photos' => __ ( 'Delete' )
+		return array(
+				'delete-photos' => __( 'Delete' )
 		);
 	}
 
@@ -155,7 +155,7 @@ IMG;
 		 * The name action collides with the action of the current post.
 		 * * * * */
 		if (is_null ( $this->_actions )) {
-			$no_new_actions = $this->_actions = $this->get_bulk_actions ();
+			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			// This filter can currently only be used to remove actions.
 			$this->_actions = apply_filters ( 'bulk_actions-' . $this->screen->id, $this->_actions );
 			$this->_actions = array_intersect_assoc ( $this->_actions, $no_new_actions );
@@ -168,7 +168,7 @@ IMG;
 			return;
 
 		echo "<select name='epa-action$two'>\n";
-		echo "<option value='-1' selected='selected'>" . __ ( 'Bulk Actions' ) . "</option>\n";
+		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $name => $title ) {
 			$class = 'edit' == $name ? ' class="hide-if-no-js"' : '';
@@ -178,7 +178,7 @@ IMG;
 
 		echo "</select>\n";
 
-		submit_button ( __ ( 'Apply' ), 'action', false, false, array (
+		submit_button ( __( 'Apply' ), 'action', false, false, array(
 				'id' => "doaction$two"
 		) );
 		echo "\n";
@@ -217,7 +217,7 @@ IMG;
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		$classes = parent::get_table_classes ();
+		$classes = parent::get_table_classes();
 		$classes [] = 'hide-if-no-js';
 		$classes [] = 'easy-photo-album-table';
 		return $classes;
@@ -241,8 +241,8 @@ IMG;
 	 */
 	function add_js_vars() {
 		// Make the row template {
-		$dummy = new stdClass ();
-		foreach ( array (
+		$dummy = new stdClass();
+		foreach ( array(
 				'id',
 				'order',
 				'title',
@@ -250,19 +250,19 @@ IMG;
 		) as $prop ) {
 			$dummy->$prop = "<%= $prop %>";
 		}
-		ob_start ();
+		ob_start();
 		$this->single_row ( $dummy );
-		$rowtemplate = ob_get_contents ();
-		ob_clean ();
+		$rowtemplate = ob_get_contents();
+		ob_clean();
 		// } end row template
 
-		$namespaced_args = array (
+		$namespaced_args = array(
 				'settingName' => EPA_PostType::INPUT_NAME,
 				'maxOrder' => count ( $this->items ) - 1,
-				'lang' => array (
-						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
-						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
-						'deleteconfirm' => __ ( "The photo '{0}' will be removed. Are you shure?", 'epa' ),
+				'lang' => array(
+						'mediatitle' => __( 'Choose image(s)', 'epa' ),
+						'mediabutton' => __( 'Select image(s)', 'epa' ),
+						'deleteconfirm' => __( "The photo '{0}' will be removed. Are you shure?", 'epa' ),
 						'photo' => _x ( 'photo', "like 1 photo", 'epa' ),
 						'photos' => _x ( "photos", "like 2 photos", 'epa' )
 				),

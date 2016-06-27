@@ -22,14 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // This file is based on wp-includes/js/tinymce/langs/wp-langs.php
 
 if (! defined ( 'ABSPATH' ))
-	exit ();
+	exit();
 
 if (! class_exists ( '_WP_Editors' ))
 	require (ABSPATH . WPINC . '/class-wp-editor.php');
 
 function easy_photo_album_insert_dialog_translation() {
-	$strings = array (
-			'dlg_title' => __ ( 'Insert a Photo Album', 'epa' ),
+	$strings = array(
+			'dlg_title' => __( 'Insert a Photo Album', 'epa' ),
 			'select_album' => __('Select an album to insert', 'epa'),
 			'show_title' => __('Show the title', 'epa'),
 			'display_label' => _x('Display album', 'Like: Display album full OR Display album excerpt', 'epa'),
@@ -48,4 +48,4 @@ function easy_photo_album_insert_dialog_translation() {
 	return $translated;
 }
 
-$strings = easy_photo_album_insert_dialog_translation ();
+$strings = easy_photo_album_insert_dialog_translation();

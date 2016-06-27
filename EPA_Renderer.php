@@ -8,10 +8,10 @@
  *
  */
 class EPA_Renderer {
-	protected $photos = array ();
-	protected $display_options = array ();
+	protected $photos = array();
+	protected $display_options = array();
 	protected $album_id = '';
-	private $closing_tags = array ();
+	private $closing_tags = array();
 	private $in_hidden_div = false;
 
 	/**
@@ -23,8 +23,8 @@ class EPA_Renderer {
 	public function __construct($album) {
 		$album = get_post ( $album );
 		$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
-		$data ['options'] = isset ( $data ['options'] ) ? $data ['options'] : array ();
-		$this->display_options = wp_parse_args ( $data ['options'], EasyPhotoAlbum::get_instance ()->get_default_display_options () );
+		$data ['options'] = isset ( $data ['options'] ) ? $data ['options'] : array();
+		$this->display_options = wp_parse_args ( $data ['options'], EasyPhotoAlbum::get_instance()->get_default_display_options() );
 		unset ( $data ['options'] );
 		$this->photos = $data;
 		$this->album_id = esc_attr ( 'epa-album-' . $album->ID );
@@ -39,7 +39,7 @@ class EPA_Renderer {
 	public function render($echo = false) {
 		$html = '<!-- Easy Photo Album -->
 ';
-		$html .= $this->render_style_block ();
+		$html .= $this->render_style_block();
 		$html .= apply_filters('epa_album_content_before', '');
 		$html .= '<ul id="' . $this->album_id . '" class="epa-album epa-cf">
 <li class="epa-row  epa-cf">
@@ -53,7 +53,7 @@ class EPA_Renderer {
 			$html .= $this->render_one_photo ( $photo );
 			if ($this->display_options ['excerpt_number'] == $count && $count != $max) {
 				// $count is never 0, so by excerpt_number = 0, all the images will be displayed.
-				$html .= $this->more_tag ();
+				$html .= $this->more_tag();
 			}
 			// IF: there is need for a new row and it is not the last row
 			// ($display_option['show_all_images_in_lightbox'])
@@ -64,7 +64,7 @@ class EPA_Renderer {
 			$count += 1;
 		}
 
-		$html .= $this->render_closing_tags ();
+		$html .= $this->render_closing_tags();
 
 		/*
 		 * Filter: epa_album_content_after

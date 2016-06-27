@@ -10,75 +10,75 @@ class EPA_PostType {
 	const SETTINGS_NAME = 'EasyPhotoAlbumSettings';
 	const INPUT_NAME = 'EasyPhotoAlbums';
 	const POSTTYPE_NAME = 'easy-photo-album';
-	private $current_photos = array ();
-	private $current_options = array ();
+	private $current_photos = array();
+	private $current_options = array();
 	private $current_post_id = - 1;
 
 	/**
 	 * Hooks all the functions on to some specific actions.
 	 */
 	public function __construct() {
-		add_action ( 'init', array (
+		add_action ( 'init', array(
 				$this,
 				'add_album_posttype'
 		) );
-		add_action ( 'init', array (
+		add_action ( 'init', array(
 				$this,
 				'on_init'
 		) );
-		add_action ( 'admin_head', array (
+		add_action ( 'admin_head', array(
 				$this,
 				'admin_head'
 		) );
-		add_action ( 'save_post', array (
+		add_action ( 'save_post', array(
 				$this,
 				'save_metadata'
 		), 1, 2 );
-		add_action ( 'save_post', array (
+		add_action ( 'save_post', array(
 				$this,
 				'save_revision_meta_field'
 		), 10, 2 );
-		add_action ( 'wp_enqueue_scripts', array (
+		add_action ( 'wp_enqueue_scripts', array(
 				$this,
 				'enqueue_scripts'
 		) );
-		add_action ( 'wp_restore_post_revision', array (
+		add_action ( 'wp_restore_post_revision', array(
 				$this,
 				'restore_revision_data'
 		), 10, 2 );
-		add_action ( '_wp_post_revision_fields', array (
+		add_action ( '_wp_post_revision_fields', array(
 				$this,
 				'add_revision_field'
 		) );
-		add_action ( '_wp_post_revision_field_epa-revision', array (
+		add_action ( '_wp_post_revision_field_epa-revision', array(
 				$this,
 				'render_revision_field'
 		), 10, 4 );
 		// Make sure there is no html added to the content of the album
 		if (remove_filter ( 'the_content', 'wpautop' )) {
 			// filter existed and is removed
-			add_filter ( 'the_content', array (
+			add_filter ( 'the_content', array(
 					$this,
 					'autop_fix'
 			), 10 );
 		}
-		add_filter ( 'the_content', array (
+		add_filter ( 'the_content', array(
 				$this,
 				'replace_css_id_when_included'
 		) );
-		add_filter ( 'post_updated_messages', array (
+		add_filter ( 'post_updated_messages', array(
 				$this,
 				'album_messages'
 		), 11, 1 );
-		add_filter ( 'the_content_more_link', array (
+		add_filter ( 'the_content_more_link', array(
 				$this,
 				'special_more_link'
 		), 10, 2 );
-		add_filter ( 'the_excerpt', array (
+		add_filter ( 'the_excerpt', array(
 				$this,
 				'special_excerpt'
 		) );
-		add_filter ( 'attachment_fields_to_save', array (
+		add_filter ( 'attachment_fields_to_save', array(
 				$this,
 				'need_to_update_image_fields'
 		) );
@@ -88,8 +88,8 @@ class EPA_PostType {
 	 * Functions to handle on init
 	 */
 	public function on_init() {
-		if (EasyPhotoAlbum::get_instance ()->inmainloop) {
-			add_action ( 'pre_get_posts', array (
+		if (EasyPhotoAlbum::get_instance()->inmainloop) {
+			add_action ( 'pre_get_posts', array(
 					$this,
 					'add_to_main_loop'
 			), 99 );
@@ -109,8 +109,8 @@ class EPA_PostType {
 			else
 				$icon = plugin_dir_url ( __FILE__ ) . 'css/img/epa-16.png';
 
-			register_post_type ( self::POSTTYPE_NAME, array (
-					'labels' => array (
+			register_post_type ( self::POSTTYPE_NAME, array(
+					'labels' => array(
 							'name' => _x ( 'Photo Albums', 'General Photo Albums name (multiple)', 'epa' ),
 							'singular_name' => _x ( 'Photo Album', 'General singular Photo Albums name', 'epa' ),
 							'add_new' => _x ( 'Add New', 'Add new menu item', 'epa' ),
@@ -126,7 +126,7 @@ class EPA_PostType {
 					),
 					'hierarchical' => false,
 					'description' => _x ( 'Post easy Photo Albums with Easy Photo Album', 'Posttype description', 'epa' ),
-					'supports' => array (
+					'supports' => array(
 							'title',
 							'author',
 							'revisions',
@@ -144,16 +144,16 @@ class EPA_PostType {
 					'has_archive' => true,
 					'query_var' => true,
 					'can_export' => true,
-					'rewrite' => array (
+					'rewrite' => array(
 							'slug' => _x ( 'albums', 'Rewrite slug', 'epa' )
 					),
 					'capability_type' => 'epa_album',
 					'map_meta_cap' => true,
-					'register_meta_box_cb' => array (
+					'register_meta_box_cb' => array(
 							$this,
 							'register_metabox'
 					),
-					'taxonomies' => array ()
+					'taxonomies' => array()
 			) );
 		}
 	}
@@ -162,11 +162,11 @@ class EPA_PostType {
 	 * Registers the metabox for the posttype
 	 */
 	public function register_metabox() {
-		add_meta_box ( 'easy-photo-album-display-options', __ ( "Album display options", 'epa' ), array (
+		add_meta_box ( 'easy-photo-album-display-options', __( "Album display options", 'epa' ), array(
 				$this,
 				'display_options_metabox'
 		), null, 'side', 'default' );
-		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'epa' ), array (
+		add_meta_box ( 'easy-photo-album-images', __( "Album images", 'epa' ), array(
 				$this,
 				'display_photo_metabox'
 		), null, 'normal', 'high' );
@@ -184,7 +184,7 @@ class EPA_PostType {
 		global $EPA_DOING_SHORTCODE, $id;
 		if ($EPA_DOING_SHORTCODE) {
 			$old_id = 'epa-album-' . $id;
-			$new_id = $old_id . '-' . $this->get_current_post_id () . '-' . $count ++;
+			$new_id = $old_id . '-' . $this->get_current_post_id() . '-' . $count ++;
 			$content = str_replace ( $old_id, $new_id, $content );
 		}
 		return $content;
@@ -194,13 +194,13 @@ class EPA_PostType {
 	 * Displays the content of the Album images metabox for this posttype
 	 */
 	public function display_photo_metabox() {
-		$this->display_no_js_waring ();
+		$this->display_no_js_waring();
 
-		$this->load_data ();
-		$l = new EPA_List_Table ( get_current_screen (), $this->current_photos );
+		$this->load_data();
+		$l = new EPA_List_Table ( get_current_screen(), $this->current_photos );
 		echo "\n" . '<div class="hide-if-no-js">' . "\n";
-		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photos", 'epa' ) . '" class="button"/>' . "\n";
-		$l->display ();
+		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __( "Add one or more photos", 'epa' ) . '" class="button"/>' . "\n";
+		$l->display();
 		echo "\n" . '<input type="hidden" value="" name="' . self::INPUT_NAME . '[albumdata]" id="epa-albumdata">' . "\n";
 		echo "\n" . '</div>' . "\n";
 	}
@@ -211,8 +211,8 @@ class EPA_PostType {
 	public function display_options_metabox() {
 		require_once 'EPA_Help.php';
 
-		$this->load_data ();
-		$help = new EPA_Help ();
+		$this->load_data();
+		$help = new EPA_Help();
 		?>
 <table class="form-table">
 	<tr valign="top">
@@ -245,11 +245,11 @@ class EPA_PostType {
 			<?php
 		// Using the same filter as in wp-admin/includes/media.php for the function
 		// image_size_input_fields. Other plugins can use this filter to add their image size.
-		$size_names = apply_filters ( 'image_size_names_choose', array (
-				'thumbnail' => __ ( 'Thumbnail' ),
-				'medium' => __ ( 'Medium' ),
-				'large' => __ ( 'Large' ),
-				'full' => __ ( 'Full Size' )
+		$size_names = apply_filters ( 'image_size_names_choose', array(
+				'thumbnail' => __( 'Thumbnail' ),
+				'medium' => __( 'Medium' ),
+				'large' => __( 'Large' ),
+				'full' => __( 'Full Size' )
 		) );
 		foreach ( $size_names as $size => $displayname ) {
 			$selected = selected ( $this->current_options ['display_size'], $size, false );
@@ -285,7 +285,7 @@ HTML;
 	private function load_data() {
 		if (empty ( $this->current_photos ) || empty ( $this->current_options )) {
 			// get the post id
-			$post_id = $this->get_current_post_id ();
+			$post_id = $this->get_current_post_id();
 			$data = get_post_meta ( $post_id, self::SETTINGS_NAME, true );
 			if ($data && ! empty ( $data )) {
 				if (array_key_exists ( 'options', $data )) {
@@ -294,7 +294,7 @@ HTML;
 				}
 				$this->current_photos = $data;
 				if (empty ( $this->current_photos )) {
-					$this->current_photos = array ();
+					$this->current_photos = array();
 				}
 
 				// Load data from the attachments if needed.
@@ -310,7 +310,7 @@ HTML;
 				}
 			}
 			// prase settings
-			$this->current_options = wp_parse_args ( $this->current_options, EasyPhotoAlbum::get_instance ()->get_default_display_options () );
+			$this->current_options = wp_parse_args ( $this->current_options, EasyPhotoAlbum::get_instance()->get_default_display_options() );
 		}
 	}
 
@@ -328,7 +328,7 @@ HTML;
 		}
 		$data = $this->current_photos;
 		$data ['options'] = $this->current_options;
-		update_post_meta ( $this->get_current_post_id (), self::SETTINGS_NAME, $data );
+		update_post_meta ( $this->get_current_post_id(), self::SETTINGS_NAME, $data );
 	}
 
 	/**
@@ -340,18 +340,18 @@ HTML;
 	public function save_metadata($post_id, $post) {
 		// no update if the current user has not the edit_epa_album cap or (if the user isn't the
 		// author) the edit_others_epa_albums cap
-		if (! current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && ! current_user_can ( 'edit_others_epa_albums' ))) {
+		if (! current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id() && ! current_user_can ( 'edit_others_epa_albums' ))) {
 			return $post_id;
 		}
 
 		// It is from the right post type
-		if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
+		if (isset ( $_POST [self::INPUT_NAME] ) && is_array( $_POST [self::INPUT_NAME] )) {
 			// Make shure everyting is loaded
-			$this->load_data ();
+			$this->load_data();
 
 			// Validate and save the album specific settings
 			require_once 'EPA_Validator.php';
-			$validator = new EPA_Validator ();
+			$validator = new EPA_Validator();
 			$valid = $this->current_options;
 			$input = $_POST [self::INPUT_NAME] ['option'];
 			$valid ['columns'] = $validator->validate_nummeric ( $input ['columns'], 1, $valid ['columns'] );
@@ -361,7 +361,7 @@ HTML;
 			$this->current_options = $valid;
 
 			// Empty the current photos var
-			$this->current_photos = array ();
+			$this->current_photos = array();
 
 			// Get albumdata
 			$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
@@ -369,7 +369,7 @@ HTML;
 
 			// Normalize the images array
 			// Make sure all the fields are there.
-			$tmp_images = array ();
+			$tmp_images = array();
 			foreach ( ( array ) $images as $index => $object ) {
 				if (! isset ( $object->title ))
 					$object->title = "";
@@ -385,7 +385,7 @@ HTML;
 			$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
 			switch ($action) {
 				case 'delete-photos' :
-					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
+					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array();
 					foreach ( $ids_to_delete as $id ) {
 						if (isset ( $images [$id] )) {
 							unset ( $images [$id] );
@@ -396,7 +396,7 @@ HTML;
 
 			foreach ( $images as $imageid => $imageobj ) {
 				// update the fields
-				$a = wp_update_post ( array (
+				$a = wp_update_post ( array(
 						'ID' => $imageid,
 						'post_title' => $imageobj->title,
 						'post_excerpt' => $imageobj->caption
@@ -406,21 +406,21 @@ HTML;
 			}
 
 			// save it
-			$this->save_data ();
+			$this->save_data();
 			// Generate HTML and set it as the post content
-			$renderer = new EPA_Renderer ( $this->get_current_post_id () );
+			$renderer = new EPA_Renderer ( $this->get_current_post_id() );
 			// unhook this function so it doesn't loop infinitely
-			remove_action ( 'save_post', array (
+			remove_action ( 'save_post', array(
 					$this,
 					'save_metadata'
 			), 1, 2 );
 			// update the post, which calls save_post again
-			wp_update_post ( array (
+			wp_update_post ( array(
 					'ID' => $post_id,
 					'post_content' => $renderer->render ( false )
 			) );
 			// re-hook this function
-			add_action ( 'save_post', array (
+			add_action ( 'save_post', array(
 					$this,
 					'save_metadata'
 			), 1, 2 );
@@ -452,7 +452,7 @@ HTML;
 		// Insert the epa-field at position 2 of the fields array
 		// Code from: http://php.net/manual/en/function.array-splice.php#56794
 		$first_array = array_splice ( $fields, 0, 1 );
-		return array_merge ( $first_array, array (
+		return array_merge ( $first_array, array(
 				'epa-revision' => _x ( 'Easy Photo Album data', 'Revisions screen', 'epa' )
 		), $fields );
 	}
@@ -488,18 +488,18 @@ HTML;
 		$data = get_metadata ( 'post', $object->ID, self::SETTINGS_NAME, true );
 		$result = '';
 		if (false !== $data && ! empty ( $data )) {
-			$result .= __ ( 'Display settings', 'epa' ) . ": " . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Columns', 'epa' ), $data ['options'] ['columns'] ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Show caption under the images', 'epa' ), ($data ['options'] ['show_caption'] ? __ ( 'yes', 'epa' ) : __ ( 'no', 'epa' )) ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Image size', 'epa' ), $data ['options'] ['display_size'] ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Number of images for excerpt', 'epa' ), $data ['options'] ['excerpt_number'] ) . "\n";
+			$result .= __( 'Display settings', 'epa' ) . ": " . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __( 'Columns', 'epa' ), $data ['options'] ['columns'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __( 'Show caption under the images', 'epa' ), ($data ['options'] ['show_caption'] ? __( 'yes', 'epa' ) : __( 'no', 'epa' )) ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __( 'Image size', 'epa' ), $data ['options'] ['display_size'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __( 'Number of images for excerpt', 'epa' ), $data ['options'] ['excerpt_number'] ) . "\n";
 			$result .= "\n";
-			$result .= __ ( 'Photos' ) . ": " . "\n";
+			$result .= __( 'Photos' ) . ": " . "\n";
 			unset ( $data ['options'] );
 			foreach ( $data as $order => $imageobj ) {
-				$result .= $order . '. ' . __ ( 'Photo ID', 'epa' ) . ': ' . $imageobj->id . "\n";
-				$result .= '    ' . __ ( 'Title', 'epa' ) . ': ' . $imageobj->title . "\n";
-				$result .= '    ' . __ ( 'Caption', 'epa' ) . ': ' . $imageobj->caption . "\n";
+				$result .= $order . '. ' . __( 'Photo ID', 'epa' ) . ': ' . $imageobj->id . "\n";
+				$result .= '    ' . __( 'Title', 'epa' ) . ': ' . $imageobj->title . "\n";
+				$result .= '    ' . __( 'Caption', 'epa' ) . ': ' . $imageobj->caption . "\n";
 			}
 		}
 		return $result;
@@ -511,7 +511,7 @@ HTML;
 	public function admin_head() {
 		// Add dashicons for WP 3.8 and higher
 		if (version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' )) {
-			wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . '.css', array (), EasyPhotoAlbum::$version );
+			wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . '.css', array(), EasyPhotoAlbum::$version );
 			echo <<<CSS
 <style>
 #menu-posts-easy-photo-album .wp-menu-image:before {
@@ -529,7 +529,7 @@ HTML;
 CSS;
 		} // end if wp >= 3.8
 
-		if (get_current_screen ()->post_type == 'easy-photo-album') {
+		if (get_current_screen()->post_type == 'easy-photo-album') {
 			if (version_compare ( $GLOBALS ['wp_version'], '3.8', '<' )) {
 				// only on the necessary screens.
 				$url = plugin_dir_url ( __FILE__ ) . 'css/img/epa-32.png';
@@ -590,9 +590,9 @@ CSS;
 <!-- End Easy Photo Album CSS -->
 CSS;
 			// Add media
-			wp_enqueue_media ();
+			wp_enqueue_media();
 			$min = '';
-			wp_enqueue_script ( 'easy-photo-album-page-js', plugins_url ( 'js/easy-photo-album-page' . $min . '.js', __FILE__ ), array (
+			wp_enqueue_script ( 'easy-photo-album-page-js', plugins_url ( 'js/easy-photo-album-page' . $min . '.js', __FILE__ ), array(
 					'jquery',
 					'underscore'
 			), EasyPhotoAlbum::$version, true );
@@ -608,21 +608,21 @@ CSS;
 		// OR we are in the main query (and option is set)
 		// OR when the current page has a photo album shortcode
 		// OR when we are in the main query and a post has the shortcode
-		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home () && EasyPhotoAlbum::get_instance ()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' )) || (is_main_query () && $this->query_has_shortcode ( $GLOBALS ['wp_query'], 'epa-album' ))) {
+		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home() && EasyPhotoAlbum::get_instance()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' )) || (is_main_query() && $this->query_has_shortcode ( $GLOBALS ['wp_query'], 'epa-album' ))) {
 			// it is a photo album
-			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
+			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . '.css', __FILE__ ), array(), EasyPhotoAlbum::$version, 'all' );
 
-			if (EasyPhotoAlbum::get_instance ()->viewmode == 'lightbox') {
-				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . '.js', __FILE__ ), array (
+			if (EasyPhotoAlbum::get_instance()->viewmode == 'lightbox') {
+				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . '.js', __FILE__ ), array(
 						'jquery'
 				), '2.6.1', true );
-				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
-						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
-						'showimagenumber' => EasyPhotoAlbum::get_instance ()->showimagenumber,
-						'albumLabel' => EasyPhotoAlbum::get_instance ()->imagenumberformat,
-						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
+				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array(
+						'wrapAround' => EasyPhotoAlbum::get_instance()->wraparound,
+						'showimagenumber' => EasyPhotoAlbum::get_instance()->showimagenumber,
+						'albumLabel' => EasyPhotoAlbum::get_instance()->imagenumberformat,
+						'scaleLightbox' => EasyPhotoAlbum::get_instance()->scalelightbox
 				) );
-				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . '.css', __FILE__ ), array (), '2.6.1' );
+				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . '.css', __FILE__ ), array(), '2.6.1' );
 			}
 		}
 	}
@@ -634,7 +634,7 @@ CSS;
 	 * @return string
 	 */
 	public function autop_fix($content) {
-		if (get_post_type () == self::POSTTYPE_NAME) {
+		if (get_post_type() == self::POSTTYPE_NAME) {
 			// no operation needed
 			return $content;
 		} else {
@@ -651,21 +651,21 @@ CSS;
 	public function album_messages($messages) {
 		global $post, $post_ID;
 
-		$messages [self::POSTTYPE_NAME] = array (
+		$messages [self::POSTTYPE_NAME] = array(
 				0 => '', // Unused. Messages start at index 1.
-				1 => sprintf ( __ ( 'Photo Album updated. <a href="%s">View Album</a>', 'epa' ), esc_url ( get_permalink ( $post_ID ) ) ),
-				2 => __ ( 'Custom field updated.' ),
-				3 => __ ( 'Custom field deleted.' ),
-				4 => __ ( 'Photo Album updated.', 'epa' ),
+				1 => sprintf ( __( 'Photo Album updated. <a href="%s">View Album</a>', 'epa' ), esc_url ( get_permalink ( $post_ID ) ) ),
+				2 => __( 'Custom field updated.' ),
+				3 => __( 'Custom field deleted.' ),
+				4 => __( 'Photo Album updated.', 'epa' ),
 				/* translators: %s: date and time of the revision */
-				5 => isset ( $_GET ['revision'] ) ? sprintf ( __ ( 'Photo Album restored to revision from %s', 'epa' ), wp_post_revision_title ( ( int ) $_GET ['revision'], false ) ) : false,
-				6 => sprintf ( __ ( 'Photo Album published. <a href="%s">View Album</a>', 'epa' ), esc_url ( get_permalink ( $post_ID ) ) ),
-				7 => __ ( 'Photo Album saved.', 'epa' ),
-				8 => sprintf ( __ ( 'Photo Album submitted. <a target="_blank" href="%s">Preview Album</a>', 'epa' ), esc_url ( add_query_arg ( 'preview', 'true', get_permalink ( $post_ID ) ) ) ),
-				9 => sprintf ( __ ( 'Photo Album scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Album</a>', 'epa' ),
+				5 => isset ( $_GET ['revision'] ) ? sprintf ( __( 'Photo Album restored to revision from %s', 'epa' ), wp_post_revision_title ( ( int ) $_GET ['revision'], false ) ) : false,
+				6 => sprintf ( __( 'Photo Album published. <a href="%s">View Album</a>', 'epa' ), esc_url ( get_permalink ( $post_ID ) ) ),
+				7 => __( 'Photo Album saved.', 'epa' ),
+				8 => sprintf ( __( 'Photo Album submitted. <a target="_blank" href="%s">Preview Album</a>', 'epa' ), esc_url ( add_query_arg ( 'preview', 'true', get_permalink ( $post_ID ) ) ) ),
+				9 => sprintf ( __( 'Photo Album scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Album</a>', 'epa' ),
 						// translators: Publish box date format, see http://php.net/date
-						date_i18n ( __ ( 'M j, Y @ G:i' ), strtotime ( $post->post_date ) ), esc_url ( get_permalink ( $post_ID ) ) ),
-				10 => sprintf ( __ ( 'Photo Album draft updated. <a target="_blank" href="%s">Preview Album</a>', 'epa' ), esc_url ( add_query_arg ( 'preview', 'true', get_permalink ( $post_ID ) ) ) )
+						date_i18n ( __( 'M j, Y @ G:i' ), strtotime ( $post->post_date ) ), esc_url ( get_permalink ( $post_ID ) ) ),
+				10 => sprintf ( __( 'Photo Album draft updated. <a target="_blank" href="%s">Preview Album</a>', 'epa' ), esc_url ( add_query_arg ( 'preview', 'true', get_permalink ( $post_ID ) ) ) )
 		);
 
 		return $messages;
@@ -705,7 +705,7 @@ CSS;
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
-			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photos...", 'epa' ) ) );
+			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __( "More photos...", 'epa' ) ) );
 		} else {
 			return $excerpt;
 		}
@@ -720,10 +720,10 @@ CSS;
 	public function add_to_main_loop($query) {
 		// is_home() checks if the current query is for the BLOG homepage (not the homepage, which
 		// can be checked by is_front_page). So only then the album post type is added.
-		if (! is_admin () && $query->is_main_query () && $query->is_home ()) {
+		if (! is_admin() && $query->is_main_query() && $query->is_home()) {
 			// Other plugins can add post types the same way, first get the current value
 			// ($query->get('post_type')) and then add the post types needed.
-			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array_merge ( ( array ) $query->get ( 'post_type' ), array (
+			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array_merge ( ( array ) $query->get ( 'post_type' ), array(
 					'post',
 					self::POSTTYPE_NAME
 			) ) ) );
@@ -747,7 +747,7 @@ CSS;
 	 * Displays the warning if javascript is disabled
 	 */
 	private function display_no_js_waring() {
-		$message = __ ( "Javascript is disabled. Please enable Javascript and reload the page before you continue.", 'epa' );
+		$message = __( "Javascript is disabled. Please enable Javascript and reload the page before you continue.", 'epa' );
 		echo <<<NO_JS
 		<noscript>
 			<div class="error"><p>$message</p></div>
@@ -777,20 +777,20 @@ NO_JS;
 	 */
 	private function query_has_shortcode($query, $shortcode) {
 		// First check if we are at the beginning
-		if ($query->have_posts () == false)
-			$query->rewind_posts ();
+		if ($query->have_posts() == false)
+			$query->rewind_posts();
 		$has_shortcode = false;
 		global $post;
 
-		while ( $query->have_posts () ) {
-			$query->the_post ();
+		while ( $query->have_posts() ) {
+			$query->the_post();
 			if (has_shortcode ( $post->post_content, $shortcode )) {
 				$has_shortcode = true;
 				break;
 			}
 		}
 		// Rewind the query
-		$query->rewind_posts ();
+		$query->rewind_posts();
 		return $has_shortcode;
 	}
 }
