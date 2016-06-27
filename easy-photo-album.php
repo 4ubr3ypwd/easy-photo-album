@@ -1,8 +1,8 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.3.5
- * Author: TV productions
+ * Version: 1.3.6-alpha
+ * Author: TV productions, Aubrey Portwood
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
  * Licence: GPL3
@@ -27,7 +27,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 */
 
 require_once 'EPA_PostType.php';
