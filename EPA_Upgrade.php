@@ -163,19 +163,20 @@ class EPA_Upgrade {
 
 	/**
 	 * Logs the message to a log file.
+	 *
 	 * Logs only if <code>WP_DEBUG</code> is set.
+	 * Logs to debug.log
 	 *
 	 * @param string $message
-	 * @since 1.3
+	 *
+	 * @since 1.3 Introduced, logged to file in plugin folder.
+	 * @since 1.3.6-alpha Now does not log to new file in plugin folder, but to proper debug.log.
 	 */
-	private function log($message) {
-		if (defined ( 'WP_DEBUG' )) {
+	private function log( $message ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$log = date ( '[d/M/Y H:i:s] ' ) . $message . PHP_EOL;
-			$file = dirname ( __FILE__ ) . '/epa-upgrade.log';
-			if (! file_exists ( $file ))
-				file_put_contents ( $file, $log, LOCK_EX );
-			else
-				file_put_contents ( $file, $log, FILE_APPEND | LOCK_EX );
+
+			error_log( $log );
 		}
 	}
 }

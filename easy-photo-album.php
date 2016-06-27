@@ -51,7 +51,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $insert_album = null;
-	public static $version = '1.3.4';
+	public static $version = '1.3.6-alpha';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -192,7 +192,6 @@ class EasyPhotoAlbum {
 	 */
 	public function add_plugin_links($links) {
 		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-general.php?page=epa-settings' ), __ ( 'Settings', 'epa' ) );
-		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'index.php?page=epa-about' ), __ ( 'About', 'epa' ) );
 		return $links;
 	}
 

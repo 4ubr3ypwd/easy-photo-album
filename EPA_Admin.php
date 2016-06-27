@@ -72,16 +72,6 @@ class EPA_Admin {
 				$this,
 				'render_admin_page'
 		) );
-
-		$this->add_about_page ();
-	}
-
-	/**
-	 * Adds the EPA about page to the dashboard page.
-	 */
-	public function add_about_page() {
-		// The menu link is removed in admin_head
-		$this->about_page = add_dashboard_page ( __ ( 'About Easy Photo Album', 'epa' ), 'About epa', 'manage_options', 'epa-about', create_function ( '', "require_once 'EPA_about.php';" ) );
 	}
 
 	/**
@@ -99,12 +89,6 @@ class EPA_Admin {
 			$action = $_REQUEST ['action'];
 		if (isset ( $_REQUEST ['action2'] ) && - 1 != $_REQUEST ['action2'])
 			$action = $_REQUEST ['action2'];
-
-		if (plugin_basename ( plugin_dir_path ( __FILE__ ) . 'easy-photo-album.php' ) == $plugin && 'activate' == $action) {
-			wp_redirect ( is_network_admin () ? network_admin_url ( 'index.php?page=epa-about' ) : admin_url ( 'index.php?page=epa-about' ) );
-			// Don't execute any code further
-			exit ();
-		}
 	}
 
 	/**
@@ -114,7 +98,6 @@ class EPA_Admin {
 	 */
 	public function admin_head() {
 		// Remove the menu item for the about page.
-		remove_submenu_page ( 'index.php', 'epa-about' );
 		if (get_current_screen ()->id === $this->admin_page) {
 			wp_enqueue_style ( 'epa-settings-css', plugin_dir_url ( __FILE__ ) . 'css/easy-photo-album-settings' . '.css', false, EasyPhotoAlbum::$version );
 			wp_enqueue_script ( 'epa-settings-js', plugin_dir_url ( __FILE__ ) . 'js/easy-photo-album-settings' . '.js', array (
