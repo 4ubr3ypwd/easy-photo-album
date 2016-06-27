@@ -378,7 +378,6 @@ HTML;
 		?>
 		<div class="epa-settings-block">
 			<p><?php printf( __('The following settings affect the display and behaviour of the photo album.%1$sFor help, check the help text (click on the quesion icon) or visit the %2$ssupport forums%3$s.', 'epa'), '<br/>', '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>');?></p>
-			<p><?php printf( __('Support the development of this plugin by donating a %1$scup of coffee%2$s.','epa'), '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KNZYFDLJHV756" target="_blank">','</a>');?></p>
 		</div>
 
 		<div class="epa-settings-block" id="epa-display-settings">
