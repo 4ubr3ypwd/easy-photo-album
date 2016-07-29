@@ -69,7 +69,7 @@ class EPA_Admin {
 	 * Loads the about page if the plugin is activated (not in a bulk action).
 	 *
 	 * @since  1.2          Introduced.
-	 * @since  1.3.6-alpha  Removed the About page.
+	 * @since  1.3.6-beta1  Removed the About page.
 	 *
 	 * @author  Aubrey Portwood
 	 */
@@ -89,7 +89,7 @@ class EPA_Admin {
 	 * Do some styling for the menu and load css if needed
 	 *
 	 * @since 1.2
-	 * @since  1.3.6-alpha Stop using .min files.
+	 * @since  1.3.6-beta1 Stop using .min files.
 	 *
 	 * @author Aubrey Portwood
 	 */
@@ -344,7 +344,7 @@ class EPA_Admin {
 	 *
 	 * @param array $args
 	 * @since  Unknown Introduced.
-	 * @since  1.3.6-alpha Removed echo >>>HTML
+	 * @since  1.3.6-beta1 Removed echo >>>HTML
 	 *
 	 * @author  Aubrey Portwood
 	 */

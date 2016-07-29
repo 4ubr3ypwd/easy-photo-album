@@ -10,7 +10,7 @@ if (! class_exists ( '_WP_Editors' ))
  * Adds translations and data to access in JS Tiny MCE Editor.
  *
  * @author Aubrey Portwood
- * @since  1.3.6-alpha Added is_albums so we can detect if there are
+ * @since  1.3.6-beta1 Added is_albums so we can detect if there are
  *                     published albums and show/not show the
  *                     TinyMCE editor button.
  *

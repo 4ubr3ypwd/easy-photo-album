@@ -148,7 +148,7 @@ class EPA_Insert_Album {
 	 * Returns the albums to the insert dialog.
 	 *
 	 * @author Aubrey Portwood
-	 * @since  1.3.6-alpha Ensures that when no albums are present, something
+	 * @since  1.3.6-beta1 Ensures that when no albums are present, something
 	 *                     gets sent back. And added some filters to the get_posts
 	 *                     here so we can modify later if we need.
 	 */
