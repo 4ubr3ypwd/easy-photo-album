@@ -1,13 +1,13 @@
 <?php
 /*
- * Plugin Name: Easy Photo Album
- * Version: 1.3.6
- * Author: Aubrey Portwood
- * Author URI: http://profiles.wordpress.org/aubreypwd
- * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
- * Licence: GPL3
- * Text Domain:   epa
- * Domain Path:   /lang/
+Plugin Name: Easy Photo Album
+Version: 1.3.6
+Author: Aubrey Portwood
+Author URI: http://profiles.wordpress.org/aubreypwd
+Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
+Licence: GPL3
+Text Domain:   epa
+Domain Path:   /lang/
  */
 
 /*
