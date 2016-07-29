@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
 Tested up to: 4.5.3
-Stable tag: 1.3.6-beta1
+Stable tag: 1.3.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -91,11 +91,15 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 
 == Changelog ==
 
-= 1.3.6-beta1 =
+= 1.3.6 =
 
-* Majro fix to bug where minified files were not present and errors with media; see https://wordpress.org/support/topic/photos-will-not-upload-6
-* Simplified screen for creating Albums
-* Fixes to TinyMCE button/modal
+* A 2-year old plugin with 7000+ gets life again!
+* Now works with the latest WordPress 4.5.3!
+* Major fixes to missing minified files (previously fixed in 1.3.5 but came back) and WP Media, see [https://goo.gl/Jvz1Ak](this support request)
+* Simplified screen for creating Albums so Saving/Publishing is easier to understand
+* Fixes to TinyMCE button/modal when no albums were created
+* Can now organize Albums into categories called "Shelves," props @kammak
+* New GitHub repo created: https://github.com/aubreypwd/wp-easy-photo-album
 
 = 1.3.5 =
 
@@ -104,7 +108,6 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 = 1.3.4 =
 
 * Fixed **critical** bug: minified stylesheets and javascript files are gone.
-
 
 = 1.3.3 =
 

@@ -12,14 +12,14 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 	 * make your CPT Publishing options
 	 * less cluttered.
 	 *
-	 * @since  1.3.6-beta1
+	 * @since  1.3.6
 	 * @author Aubrey Portwood
 	 */
 	class EPA_Simple_CPT {
 		/**
 		 * Arguments.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 *
 		 * @see  self::__construct()
@@ -30,7 +30,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Construct.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 *
 		 * @param array $args Arguments {
@@ -109,7 +109,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Remove Yoast Metabox
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 */
 		public function remove_yoast_metabox() {
@@ -123,7 +123,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Hides the slug edit UI.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 */
 		public function remove_edit_slug_ui() {
@@ -137,7 +137,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Hides the publishing options since they aren't relevant here.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 */
 		public function hide_actions() {
@@ -157,7 +157,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Removes the Quick Edit from the bulk list options.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 *
 		 * @param  array $actions Default Actions
@@ -185,7 +185,7 @@ if ( ! class_exists( 'EPA_Simple_CPT' ) ) :
 		/**
 		 * Changes default text to text that makes more sense for this plugin.
 		 *
-		 * @since  1.3.6-beta1
+		 * @since  1.3.6
 		 * @author Aubrey Portwood
 		 *
 		 * @param  string $translated_text The un-translated text.

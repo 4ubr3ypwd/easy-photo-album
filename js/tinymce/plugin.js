@@ -2,7 +2,7 @@
  * Adds the modal/buttons to TinyMCE.
  *
  * @author Aubrey Portwood
- * @since  1.3.6-beta1 Ensures that this TinyMCE button is not added when there
+ * @since  1.3.6 Ensures that this TinyMCE button is not added when there
  *                     are no albums.
  */
 ( function() {
@@ -23,7 +23,7 @@
 		 * ids. Used by the epa_insert_album command in the listbox control.
 		 *
 		 * @author  Aubrey Portwood
-		 * @since  1.3.6-beta1 Binds getAlbums to the object so we can
+		 * @since  1.3.6 Binds getAlbums to the object so we can
 		 *                     use it below to test if we have albums.
 		 */
 		function getAlbums( callback ) {
