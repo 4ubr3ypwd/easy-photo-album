@@ -151,8 +151,47 @@ class EPA_PostType {
 					'capability_type' => 'epa_album',
 					'map_meta_cap' => true,
 					'register_meta_box_cb' => array( $this, 'register_metabox' ),
-					'taxonomies' => array()
+					'taxonomies' => array( 'shelf' )
 			) );
+
+		 /**
+			* Registers the new taxonomy <code>shelf</code> for <code>easy-photo-album</code> post type.
+			*
+			* @author  kammak <https://wordpress.org/support/profile/kammak>
+			* @see  https://wordpress.org/support/topic/please-add-category-or-tag-support?replies=2#post-8081783
+			*/
+			register_taxonomy('shelf',
+				self::POSTTYPE_NAME,
+				array(
+					'hierarchical' => true,
+					'labels' => array(
+						'name' => _x ('Shelves','Photo Albums shelves name (multiple)','epa'),
+						'singular_name' => _x ('Shelf','Singular Photo Albums shelf name','epa'),
+						'search_items' =>  _x ('Search shelf','Search items','epa'),
+						'popular_items' => _x ('Popular shelves','Popular shelves','epa'),
+						'all_items' => _x ('All shelves','All items','epa'),
+						'parent_item' => _x ('Parent shelf','Parent shelf','epa'),
+						'parent_item_colon' =>  _x ('Parent shelf','Parent shelf','epa'),
+						'edit_item' =>  _x ('Edit shelf','Edit menu item','epa'),
+						'update_item' =>  _x ('Update shelf','Update menu item','epa'),
+						'add_new_item' =>  _x ('Add new shelf','Add new menu item','epa'),
+						'new_item_name' => _x ('New shelf name','New shelf name','epa'),
+						'add_or_remove_items' => _x ('Add or remove shelf','Add or remove shelf','epa'),
+						'choose_from_most_used' => _x ('Choose from most used','Choose from most used','epa'),
+						'menu_name' => _x ('Shelves','Menu name','epa')
+					),
+					'public' => true,
+					'show_in_nav_menus' => true,
+					'show_ui' => true,
+					'show_tagcloud' => false,
+					'update_count_callback' => '_update_post_term_count',
+					'query_var' => true,
+					'rewrite' => array(
+						'slug' => 'shelf',
+						'hierarchical' => true
+					),
+				)
+			);
 		}
 	}
 
