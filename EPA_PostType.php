@@ -109,29 +109,30 @@ class EPA_PostType {
 			else
 				$icon = plugin_dir_url ( __FILE__ ) . 'css/img/epa-16.png';
 
-			register_post_type ( self::POSTTYPE_NAME, array(
+			register_post_type( self::POSTTYPE_NAME, array(
 					'labels' => array(
-							'name' => _x ( 'Photo Albums', 'General Photo Albums name (multiple)', 'epa' ),
-							'singular_name' => _x ( 'Photo Album', 'General singular Photo Albums name', 'epa' ),
-							'add_new' => _x ( 'Add New', 'Add new menu item', 'epa' ),
-							'add_new_item' => _x ( 'Add New Photo Album', 'Add new menu item extended', 'epa' ),
-							'edit_item' => _x ( 'Edit Photo Album', 'Edit menu item', 'epa' ),
-							'new_item' => _x ( 'New Photo Album', 'New menu item', 'epa' ),
-							'view_item' => _x ( 'View Photo Album', 'View menu item', 'epa' ),
-							'search_items' => _x ( 'Search Photo Album', 'Search menu item', 'epa' ),
-							'not_found' => _x ( 'No Photo Albums found', 'No Photo Albums found message', 'epa' ),
-							'not_found_in_trash' => _x ( 'No Photo Albums found in Trash', 'No Photo Albums found in trash message', 'epa' ),
-							'parent_item_colon' => _x ( 'Parent Photo Album:', 'Parent Photo album label', 'epa' ),
-							'menu_name' => _x ( 'Photo Albums', 'Menu name', 'epa' )
+						'name' => _x ( 'Photo Albums', 'General Photo Albums name (multiple)', 'epa' ),
+						'singular_name' => _x ( 'Photo Album', 'General singular Photo Albums name', 'epa' ),
+						'add_new' => _x ( 'Add New', 'Add new menu item', 'epa' ),
+						'add_new_item' => _x ( 'Add New Photo Album', 'Add new menu item extended', 'epa' ),
+						'edit_item' => _x ( 'Edit Photo Album', 'Edit menu item', 'epa' ),
+						'new_item' => _x ( 'New Photo Album', 'New menu item', 'epa' ),
+						'view_item' => _x ( 'View Photo Album', 'View menu item', 'epa' ),
+						'search_items' => _x ( 'Search Photo Album', 'Search menu item', 'epa' ),
+						'not_found' => _x ( 'No Photo Albums found', 'No Photo Albums found message', 'epa' ),
+						'not_found_in_trash' => _x ( 'No Photo Albums found in Trash', 'No Photo Albums found in trash message', 'epa' ),
+						'parent_item_colon' => _x ( 'Parent Photo Album:', 'Parent Photo album label', 'epa' ),
+						'menu_name' => _x ( 'Photo Albums', 'Menu name', 'epa' )
 					),
 					'hierarchical' => false,
 					'description' => _x ( 'Post easy Photo Albums with Easy Photo Album', 'Posttype description', 'epa' ),
 					'supports' => array(
-							'title',
-							'author',
-							'revisions',
-							'thumbnail',
-							'comments'
+						'title',
+						'author',
+
+						// We don't really need these.
+						'thumbnail' => false,
+						'comments' => false,
 					),
 					'public' => true,
 					'show_ui' => true,
@@ -140,19 +141,16 @@ class EPA_PostType {
 					'menu_position' => 11,
 					'show_in_nav_menus' => true,
 					'publicly_queryable' => true,
-					'exclude_from_search' => false,
+					'exclude_from_search' => true,
 					'has_archive' => true,
 					'query_var' => true,
 					'can_export' => true,
 					'rewrite' => array(
-							'slug' => _x ( 'albums', 'Rewrite slug', 'epa' )
+						'slug' => _x ( 'albums', 'Rewrite slug', 'epa' )
 					),
 					'capability_type' => 'epa_album',
 					'map_meta_cap' => true,
-					'register_meta_box_cb' => array(
-							$this,
-							'register_metabox'
-					),
+					'register_meta_box_cb' => array( $this, 'register_metabox' ),
 					'taxonomies' => array()
 			) );
 		}

@@ -56,6 +56,7 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 		private $post_type = null;
 		private $admin = null;
 		private $insert_album = null;
+		private $simple_cpt = null;
 		public static $version = '1.3.6-alpha';
 
 		/**
@@ -72,6 +73,7 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 			require_once 'EPA_Renderer.php';
 
 			if ( is_admin() ) {
+				require_once 'EPA_Simple_CPT.php';
 				require_once 'EPA_List_Table.php';
 				require_once 'EPA_Admin.php';
 			}
@@ -84,6 +86,14 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 
 			if ( is_admin() ) {
 				$this->admin = new EPA_Admin();
+
+				// Simplify the CPT.
+				$this->simple_cpt = new EPA_Simple_CPT( array(
+					'post_type'            => 'easy-photo-album',
+					'remove_quick_edit'    => true, // Remove quickedit.
+					'remove_known_plugins' => true, // Remove some known plugins.
+					'remove_yoast_metabox' => true, // Remove Yoast Metabox
+				) );
 			}
 
 			register_activation_hook ( __FILE__, array(
