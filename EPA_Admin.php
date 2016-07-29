@@ -89,6 +89,7 @@ class EPA_Admin {
 	 * Do some styling for the menu and load css if needed
 	 *
 	 * @since 1.2
+	 * @since  1.3.6-alpha Stop using .min files.
 	 *
 	 * @author Aubrey Portwood
 	 */

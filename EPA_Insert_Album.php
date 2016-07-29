@@ -145,29 +145,38 @@ class EPA_Insert_Album {
 	}
 
 	/**
-	 * Returns the albums to the insert dialog
+	 * Returns the albums to the insert dialog.
+	 *
+	 * @author Aubrey Portwood
+	 * @since  1.3.6-alpha Ensures that when no albums are present, something
+	 *                     gets sent back. And added some filters to the get_posts
+	 *                     here so we can modify later if we need.
 	 */
 	public function ajax_return_albums() {
+
 		// Fix to prevent PHP Notice
-		if (! isset ( $_REQUEST ['_wpnonce'] ))
-			$_REQUEST ['_wpnonce'] = '';
+		if ( ! isset ( $_REQUEST ['_wpnonce'] ) ) {
+			$_REQUEST['_wpnonce'] = '';
+		}
+
 		check_ajax_referer ( 'epa_insert_dlg' );
-		$albums = get_posts ( array(
-				'post_type' => EPA_PostType::POSTTYPE_NAME,
-				'post_status' => 'publish',
-				'numberposts' => - 1
-		) );
+
+		$albums = get_posts( apply_filters( 'epa_albums_get_posts', array(
+			'post_type' => EPA_PostType::POSTTYPE_NAME,
+			'post_status' => 'publish',
+			'posts_per_page' => apply_filters( 'epa_albums_get_posts_numberposts', 5000 ),
+		) ) );
+
 		$result = array();
+
 		foreach ( $albums as $album ) {
-			$result [] = array(
-					'id' => $album->ID,
-					'title' => $album->post_title
+			$result[] = array(
+				'id'    => $album->ID,
+				'title' => $album->post_title
 			);
 		}
-		if (empty ( $result ) || empty ( $albums ))
-			die ( 0 );
 
-		die ( json_encode ( $result ) );
+		die ( json_encode( isset( $result ) ? $result : array() ) );
 	}
 
 	/**

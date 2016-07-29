@@ -1,8 +1,3 @@
-/*
- * This file is part of Easy Photo Album plugin for WordPress.
- *
- *
- */
 (function() {
 	tinymce.PluginManager.requireLangPack('EasyPhotoAlbum');
 	tinymce.create('tinymce.plugins.EasyPhotoAlbum', {
