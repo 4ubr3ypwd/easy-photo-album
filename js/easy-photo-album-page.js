@@ -19,7 +19,9 @@ window.TVproductions = window.TVproductions || {};
 	// Selects the row with the corresponding data
 	// attrname is the name of the data, value is the value
 	var selectRowWith = function(attrname, value) {
-		return $('.easy-photo-album-table tr[' + attrname + '="' + value + '"]');
+		var thing = $('.easy-photo-album-table tr[' + attrname + '="' + value + '"]');
+
+		return thing;
 	};
 
 	var build = function() {
@@ -133,23 +135,30 @@ window.TVproductions = window.TVproductions || {};
 		var forcedMoveId = getIdFromOrder(newOrder);
 		var $forcedMoveRow = selectRowWith('data-epa-id', forcedMoveId);
 		var $movingRow = selectRowWith('data-epa-id', movingId);
+
 		if ($.isEmptyObject($forcedMoveRow) || $.isEmptyObject($movingRow)) {
 			return; // moving not possible...
 		}
 		var forcedMoveHtml = $forcedMoveRow.html();
 		var movingHtml = $movingRow.html();
 		if (forcedMoveHtml == undefined || movingHtml == undefined) {
-			console.error('Easy Photo Album: HTML Undefined Error');
 			return;
 		}
-		$forcedMoveRow.html(replaceOrder(movingHtml, oldOrder, newOrder));
-		$movingRow.html(replaceOrder(forcedMoveHtml, newOrder, oldOrder));
+
+		// Switch the HTML of the elements.
+		$forcedMoveRow.html(movingHtml);
+		$movingRow.html(forcedMoveHtml);
+
+		// Switch the order of the elements.
+		replaceOrder( $movingRow, oldOrder, newOrder );
+		replaceOrder( $forcedMoveRow, newOrder, oldOrder );
 	};
 
 	// replace the oldOrder with the newOrder in the given html
-	var replaceOrder = function(html, oldOrder, newOrder) {
-		return html.replace('data-epa-order="' + oldOrder + '"',
-				'data-epa-order="' + newOrder + '"');
+	var replaceOrder = function($element, oldOrder, newOrder) {
+
+		// Set the new order for the element.
+		$element.attr( 'data-epa-order', newOrder );
 	};
 
 	// Set the order to order for the given id
