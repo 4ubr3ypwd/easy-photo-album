@@ -6,8 +6,8 @@ Author: Aubrey Portwood
 Author URI: http://profiles.wordpress.org/aubreypwd
 Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
 Licence: GPL3
-Text Domain:   epa
-Domain Path:   /lang/
+Text Domain: epa
+Domain Path: /lang/
  */
 
 /*
@@ -57,7 +57,7 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 		private $admin = null;
 		private $insert_album = null;
 		private $simple_cpt = null;
-		public static $version = '1.3.7';
+		public static $version = null;
 
 		/**
 		 * Construct
@@ -68,6 +68,10 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 		 * @author  Aubrey Portwood
 		 */
 		private function __construct() {
+
+			// Assign the version from the header information.
+			self::$version = $this->get_plugin_data( 'Version' );
+
 			require_once 'EPA_PostType.php';
 			require_once 'EPA_Insert_Album.php';
 			require_once 'EPA_Renderer.php';
@@ -126,6 +130,34 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 					$this,
 					'rerender_photos'
 			), 11, 2 );
+		}
+
+		/**
+		 * Get plugin header data.
+		 *
+		 * @author Aubrey Portwood
+		 * @since  1.3.7
+		 *
+		 * @return string The value of the plugin header data requested.
+		 */
+		private function get_plugin_data( $key ) {
+			require_once(  ABSPATH . WPINC . '/plugin.php' );
+
+			// I know, we're not using get_plugin_data here, because we can;t!
+			$plugin_data = get_file_data( __FILE__, array(
+				'Name'        => 'Plugin Name',
+				'PluginURI'   => 'Plugin URI',
+				'Version'     => 'Version',
+				'Description' => 'Description',
+				'Author'      => 'Author',
+				'AuthorURI'   => 'Author URI',
+			) );
+
+			if ( isset( $plugin_data[ $key ] ) ) {
+				return $plugin_data[ $key ];
+			}
+
+			return '';
 		}
 
 		/**
