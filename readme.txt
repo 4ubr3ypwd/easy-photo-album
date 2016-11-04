@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
 Tested up to: 4.5.3
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -80,7 +80,7 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 
 = Q: Are there any plugins incompatible with Easy Photo Album? =
 
-A: So far, there are no reported issues caused by an other plugin. A small notice when you use WP User Frontend: make shure the setting `Show Attachments` (under the Others tab) unchecked.
+A: So far, there are no reported issues caused by an other plugin. A small notice when you use WP User Frontend: make sure the setting `Show Attachments` (under the Others tab) unchecked.
 
 == Screenshots ==
 
@@ -91,6 +91,10 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 
 == Changelog ==
 
+= 1.3.7 =
+
+* Fix to up/down toggles when editing a photo album (they now work again)
+
 = 1.3.6 =
 
 * A 2-year old plugin with 7000+ gets life again!
@@ -99,7 +103,6 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 * Simplified screen for creating Albums so Saving/Publishing is easier to understand
 * Fixes to TinyMCE button/modal when no albums were created
 * Can now organize Albums into categories called "Shelves," props @kammak
-* New GitHub repo created: https://github.com/aubreypwd/wp-easy-photo-album
 
 = 1.3.5 =
 

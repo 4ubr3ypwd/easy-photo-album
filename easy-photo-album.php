@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Easy Photo Album
-Version: 1.3.6
+Version: 1.3.7
 Author: Aubrey Portwood
 Author URI: http://profiles.wordpress.org/aubreypwd
 Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -57,7 +57,7 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 		private $admin = null;
 		private $insert_album = null;
 		private $simple_cpt = null;
-		public static $version = '1.3.6';
+		public static $version = '1.3.7';
 
 		/**
 		 * Construct

@@ -130,7 +130,16 @@ window.TVproductions = window.TVproductions || {};
 		return $(element).closest('tr');
 	};
 
-	// Switch two rows. Switch movingId with oldOrder to the newOrder
+	/**
+	 * Switch rows.
+	 *
+	 * @author                      Aubrey Portwood
+	 * @since                       1.3.6
+	 *
+	 * @param  {Number} oldRowOrder The order of the row that is moving.
+	 * @param  {Number} movingId    The epa-id of the row that's moving.
+	 * @param  {Number} newRowOrder The order of the row that the row is moving to.
+	 */
 	var switchRows = function( oldRowOrder, movingId, newRowOrder ) {
 		var $newRow       = selectRowWith( 'data-epa-id', getIdFromOrder( newRowOrder ) );
 		var $movedRow     = selectRowWith( 'data-epa-id', movingId );
@@ -154,7 +163,15 @@ window.TVproductions = window.TVproductions || {};
 		setId( $newRow, movedRowId );
 	};
 
-	// Set the ID of a row.
+	/**
+	 * Set the Id of a row.
+	 *
+	 * @author              Aubrey Portwood
+	 * @since               1.3.6
+	 *
+	 * @param {Object} $row The row jQuery object.
+	 * @param {Integer} id  The id the row should have.
+	 */
 	var setId = function( $row, id ) {
 		$row.attr( 'data-epa-id', id );
 	};
