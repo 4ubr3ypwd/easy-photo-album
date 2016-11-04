@@ -145,12 +145,12 @@ if ( ! class_exists( 'EasyPhotoAlbum' ) ) :
 
 			// I know, we're not using get_plugin_data here, because we can;t!
 			$plugin_data = get_file_data( __FILE__, array(
-				'Name'        => 'Plugin Name',
-				'PluginURI'   => 'Plugin URI',
+				// 'Name'        => 'Plugin Name',
+				// 'PluginURI'   => 'Plugin URI',
 				'Version'     => 'Version',
-				'Description' => 'Description',
-				'Author'      => 'Author',
-				'AuthorURI'   => 'Author URI',
+				// 'Description' => 'Description',
+				// 'Author'      => 'Author',
+				// 'AuthorURI'   => 'Author URI',
 			) );
 
 			if ( isset( $plugin_data[ $key ] ) ) {
