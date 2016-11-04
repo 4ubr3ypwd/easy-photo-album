@@ -40,7 +40,7 @@ window.TVproductions = window.TVproductions || {};
 					arr.push(obj);
 				});
 		$('#epa-albumdata').val(JSON.stringify(arr));
-	}
+	};
 
 	var refresh = function() {
 		correctActions();
@@ -114,7 +114,7 @@ window.TVproductions = window.TVproductions || {};
 		if ($elm === undefined) {
 			return -1;
 		} else {
-			return parseInt($elm.attr('data-epa-id'), 10)
+			return parseInt($elm.attr('data-epa-id'), 10);
 		}
 	};
 
@@ -131,43 +131,42 @@ window.TVproductions = window.TVproductions || {};
 	};
 
 	// Switch two rows. Switch movingId with oldOrder to the newOrder
-	var switchRows = function(oldOrder, movingId, newOrder) {
-		var forcedMoveId = getIdFromOrder(newOrder);
-		var $forcedMoveRow = selectRowWith('data-epa-id', forcedMoveId);
-		var $movingRow = selectRowWith('data-epa-id', movingId);
+	var switchRows = function( oldRowOrder, movingId, newRowOrder ) {
+		var $newRow       = selectRowWith( 'data-epa-id', getIdFromOrder( newRowOrder ) );
+		var $movedRow     = selectRowWith( 'data-epa-id', movingId );
 
-		if ($.isEmptyObject($forcedMoveRow) || $.isEmptyObject($movingRow)) {
+		if ( $.isEmptyObject( $newRow ) || $.isEmptyObject( $movedRow ) || 0 === $newRow.length || 0 === $movedRow.length ) {
 			return; // moving not possible...
 		}
-		var forcedMoveHtml = $forcedMoveRow.html();
-		var movingHtml = $movingRow.html();
-		if (forcedMoveHtml == undefined || movingHtml == undefined) {
-			return;
-		}
+
+		// Get HTML and ID's to switch.
+		var newRowHTML = $newRow.html();
+		var movedRowHTML = $movedRow.html();
+		var newRowId = $newRow.attr( 'data-epa-id' );
+		var movedRowId = $movedRow.attr( 'data-epa-id' );
 
 		// Switch the HTML of the elements.
-		$forcedMoveRow.html(movingHtml);
-		$movingRow.html(forcedMoveHtml);
+		$newRow.html( movedRowHTML );
+		$movedRow.html( newRowHTML );
 
-		// Switch the order of the elements.
-		replaceOrder( $movingRow, oldOrder, newOrder );
-		replaceOrder( $forcedMoveRow, newOrder, oldOrder );
+		// Move the ID's around.
+		setId( $movedRow, newRowId );
+		setId( $newRow, movedRowId );
 	};
 
-	// replace the oldOrder with the newOrder in the given html
-	var replaceOrder = function($element, oldOrder, newOrder) {
-
-		// Set the new order for the element.
-		$element.attr( 'data-epa-order', newOrder );
+	// Set the ID of a row.
+	var setId = function( $row, id ) {
+		$row.attr( 'data-epa-id', id );
 	};
 
-	// Set the order to order for the given id
+	// Set the order to order for the given id.
 	var setOrder = function(id, order) {
-		var $elm = selectRowWith('data-epa-id', id);
-		if ($elm === undefined) {
+		var $elm = selectRowWith( 'data-epa-id', id );
+
+		if ( $elm === 'undefined' ) {
 			return;
 		} else {
-			$elm.attr('data-epa-order', order);
+			$elm.attr( 'data-epa-order', order );
 		}
 	};
 
