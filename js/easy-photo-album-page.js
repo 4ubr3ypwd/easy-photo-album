@@ -19,7 +19,9 @@ window.TVproductions = window.TVproductions || {};
 	// Selects the row with the corresponding data
 	// attrname is the name of the data, value is the value
 	var selectRowWith = function(attrname, value) {
-		return $('.easy-photo-album-table tr[' + attrname + '="' + value + '"]');
+		var thing = $('.easy-photo-album-table tr[' + attrname + '="' + value + '"]');
+
+		return thing;
 	};
 
 	var build = function() {
@@ -38,7 +40,7 @@ window.TVproductions = window.TVproductions || {};
 					arr.push(obj);
 				});
 		$('#epa-albumdata').val(JSON.stringify(arr));
-	}
+	};
 
 	var refresh = function() {
 		correctActions();
@@ -112,7 +114,7 @@ window.TVproductions = window.TVproductions || {};
 		if ($elm === undefined) {
 			return -1;
 		} else {
-			return parseInt($elm.attr('data-epa-id'), 10)
+			return parseInt($elm.attr('data-epa-id'), 10);
 		}
 	};
 
@@ -129,36 +131,42 @@ window.TVproductions = window.TVproductions || {};
 	};
 
 	// Switch two rows. Switch movingId with oldOrder to the newOrder
-	var switchRows = function(oldOrder, movingId, newOrder) {
-		var forcedMoveId = getIdFromOrder(newOrder);
-		var $forcedMoveRow = selectRowWith('data-epa-id', forcedMoveId);
-		var $movingRow = selectRowWith('data-epa-id', movingId);
-		if ($.isEmptyObject($forcedMoveRow) || $.isEmptyObject($movingRow)) {
+	var switchRows = function( oldRowOrder, movingId, newRowOrder ) {
+		var $newRow       = selectRowWith( 'data-epa-id', getIdFromOrder( newRowOrder ) );
+		var $movedRow     = selectRowWith( 'data-epa-id', movingId );
+
+		if ( $.isEmptyObject( $newRow ) || $.isEmptyObject( $movedRow ) || 0 === $newRow.length || 0 === $movedRow.length ) {
 			return; // moving not possible...
 		}
-		var forcedMoveHtml = $forcedMoveRow.html();
-		var movingHtml = $movingRow.html();
-		if (forcedMoveHtml == undefined || movingHtml == undefined) {
-			console.error('Easy Photo Album: HTML Undefined Error');
-			return;
-		}
-		$forcedMoveRow.html(replaceOrder(movingHtml, oldOrder, newOrder));
-		$movingRow.html(replaceOrder(forcedMoveHtml, newOrder, oldOrder));
+
+		// Get HTML and ID's to switch.
+		var newRowHTML = $newRow.html();
+		var movedRowHTML = $movedRow.html();
+		var newRowId = $newRow.attr( 'data-epa-id' );
+		var movedRowId = $movedRow.attr( 'data-epa-id' );
+
+		// Switch the HTML of the elements.
+		$newRow.html( movedRowHTML );
+		$movedRow.html( newRowHTML );
+
+		// Move the ID's around.
+		setId( $movedRow, newRowId );
+		setId( $newRow, movedRowId );
 	};
 
-	// replace the oldOrder with the newOrder in the given html
-	var replaceOrder = function(html, oldOrder, newOrder) {
-		return html.replace('data-epa-order="' + oldOrder + '"',
-				'data-epa-order="' + newOrder + '"');
+	// Set the ID of a row.
+	var setId = function( $row, id ) {
+		$row.attr( 'data-epa-id', id );
 	};
 
-	// Set the order to order for the given id
+	// Set the order to order for the given id.
 	var setOrder = function(id, order) {
-		var $elm = selectRowWith('data-epa-id', id);
-		if ($elm === undefined) {
+		var $elm = selectRowWith( 'data-epa-id', id );
+
+		if ( $elm === 'undefined' ) {
 			return;
 		} else {
-			$elm.attr('data-epa-order', order);
+			$elm.attr( 'data-epa-order', order );
 		}
 	};
 
