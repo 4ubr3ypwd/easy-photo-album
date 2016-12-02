@@ -4,8 +4,9 @@
  * This class adds a button to the TinyMCE editor and handles the shorcode that it generates to
  * insert an album in a post.
  *
- * @author TV Productions, Aubrey Portwood
+ * @author TV Productions
  * @package EasyPhotoAlbum
+ *
  */
 class EPA_Insert_Album {
 
