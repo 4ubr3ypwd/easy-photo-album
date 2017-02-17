@@ -45,11 +45,6 @@ class EPA_Admin {
 				$this,
 				'after_activation'
 		), 999 ); // Very low priority because of exit in filter.
-		add_action ( 'admin_enqueue_scripts', array (
-				$this,
-				'admin_enqueue_scripts'
-		) );
-
 		$this->help = new EPA_Help();
 	}
 
@@ -426,18 +421,6 @@ class EPA_Admin {
 				</form>
 			</div>
 		<?php
-	}
-
-	/**
-	 * Hooked to admin_enqueue_scripts
-	 *
-	 * @since  Unknown Introduced.
-	 */
-	public function admin_enqueue_scripts() {
-		// Remove the autosave function, becuase it will only save the title
-		// and the content (that doesn't exists for epa). Will it be better?
-		if (EPA_PostType::POSTTYPE_NAME == get_post_type())
-			wp_dequeue_script ( 'autosave' );
 	}
 
 	/**
